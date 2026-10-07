@@ -27,6 +27,10 @@ const getProjects = async (userId, { search, status, page = 1, limit = 10, sortB
   const validSortBy = ALLOWED_SORT_FIELDS.includes(sortBy) ? sortBy : 'createdAt';
   const validSortOrder = sortOrder === 'asc' ? 'asc' : 'desc';
 
+  const orderBy = (validSortBy === 'startDate' || validSortBy === 'endDate')
+    ? { [validSortBy]: { sort: validSortOrder, nulls: 'last' } }
+    : { [validSortBy]: validSortOrder };
+
   const [total, rawProjects] = await Promise.all([
     prisma.project.count({ where }),
     prisma.project.findMany({
@@ -45,9 +49,7 @@ const getProjects = async (userId, { search, status, page = 1, limit = 10, sortB
           },
         },
       },
-      orderBy: {
-        [validSortBy]: validSortOrder,
-      },
+      orderBy,
     }),
   ]);
 

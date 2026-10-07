@@ -132,7 +132,7 @@ export const ProjectsPage = () => {
     setPage(1);
   };
 
-  const hasFilters = Boolean(search || statusFilter || sortBy !== 'createdAt');
+  const hasFilters = Boolean(search || statusFilter || sortBy !== 'createdAt' || sortOrder !== 'desc');
 
   return (
     <div className="space-y-6">
@@ -202,6 +202,8 @@ export const ProjectsPage = () => {
               <option value="createdAt:asc">Oldest First</option>
               <option value="name:asc">Name (A-Z)</option>
               <option value="name:desc">Name (Z-A)</option>
+              <option value="startDate:asc">Start Date (Earliest)</option>
+              <option value="endDate:asc">End Date (Earliest)</option>
               <option value="status:asc">Status</option>
             </select>
           </div>

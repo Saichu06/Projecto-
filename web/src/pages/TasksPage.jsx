@@ -166,7 +166,14 @@ export const TasksPage = () => {
     setPage(1);
   };
 
-  const hasFilters = Boolean(search || statusFilter || priorityFilter || projectFilter || sortBy !== 'createdAt');
+  const hasFilters = Boolean(
+    search ||
+    statusFilter ||
+    priorityFilter ||
+    projectFilter ||
+    sortBy !== 'createdAt' ||
+    sortOrder !== 'desc'
+  );
 
   return (
     <div className="space-y-6">
@@ -274,8 +281,13 @@ export const TasksPage = () => {
               <option value="createdAt:desc">Newest First</option>
               <option value="createdAt:asc">Oldest First</option>
               <option value="dueDate:asc">Due Date (Earliest)</option>
-              <option value="priority:desc">Priority (High-Low)</option>
+              <option value="dueDate:desc">Due Date (Latest)</option>
+              <option value="priority:desc">Priority (High to Low)</option>
+              <option value="priority:asc">Priority (Low to High)</option>
               <option value="name:asc">Name (A-Z)</option>
+              <option value="name:desc">Name (Z-A)</option>
+              <option value="status:asc">Status (Pending First)</option>
+              <option value="status:desc">Status (Completed First)</option>
             </select>
           </div>
 

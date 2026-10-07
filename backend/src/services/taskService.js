@@ -35,6 +35,10 @@ const getTasks = async (userId, { search, status, priority, projectId, page = 1,
   const validSortBy = ALLOWED_TASK_SORT_FIELDS.includes(sortBy) ? sortBy : 'createdAt';
   const validSortOrder = sortOrder === 'asc' ? 'asc' : 'desc';
 
+  const orderBy = validSortBy === 'dueDate'
+    ? { dueDate: { sort: validSortOrder, nulls: 'last' } }
+    : { [validSortBy]: validSortOrder };
+
   const [total, tasks] = await Promise.all([
     prisma.task.count({ where }),
     prisma.task.findMany({
@@ -50,9 +54,7 @@ const getTasks = async (userId, { search, status, priority, projectId, page = 1,
           },
         },
       },
-      orderBy: {
-        [validSortBy]: validSortOrder,
-      },
+      orderBy,
     }),
   ]);
 
